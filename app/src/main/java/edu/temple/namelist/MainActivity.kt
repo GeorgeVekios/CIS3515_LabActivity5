@@ -9,10 +9,11 @@ import android.widget.BaseAdapter
 import android.widget.Button
 import android.widget.Spinner
 import android.widget.TextView
+import androidx.core.view.size
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var names: List<String>
+    lateinit var names: MutableList<String>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -37,9 +38,22 @@ class MainActivity : AppCompatActivity() {
         }
 
         findViewById<View>(R.id.deleteButton).setOnClickListener {
-            (names as MutableList).removeAt(spinner.selectedItemPosition)
-            (spinner.adapter as BaseAdapter).notifyDataSetChanged()
-            nameTextView.text = spinner.selectedItem.toString()
+            if(names.size > 0) {
+                (names as MutableList).removeAt(spinner.selectedItemPosition)
+                (spinner.adapter as BaseAdapter).notifyDataSetChanged()
+                if(names.size > 0){
+                        val newSelection =
+                            if (spinner.selectedItemPosition >= names.size) names.size - 1 else spinner.selectedItemPosition
+
+                    spinner.setSelection(newSelection)
+                    nameTextView.text = spinner.selectedItem.toString()
+                } else {
+                    nameTextView.text = "There are no names left to delete"
+                }
+            }
+            else {
+                nameTextView.text = "There are no names left to delete"
+            }
         }
 
     }
