@@ -47,13 +47,12 @@ class MainActivity : AppCompatActivity() {
 
                     spinner.setSelection(newSelection)
                     nameTextView.text = spinner.selectedItem.toString()
-                } else {
-                    nameTextView.text = "There are no names left to delete"
                 }
+                else
+                    nameTextView.text = "There are no names left to delete"
             }
-            else {
+            else
                 nameTextView.text = "There are no names left to delete"
-            }
         }
 
     }
